@@ -1,18 +1,64 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Thumbnail, Score } from './components';
+import logo from './logo.svg'
 
 class App extends Component {
+
+  state = {
+    tiles: [
+      "/img/ari.gif",
+      "/img/atl.gif",
+      "/img/bal.gif",
+      "/img/buf.gif",
+      "/img/car.gif",
+      "/img/phi.gif",
+      "/img/nyj.gif",
+      "/img/nyg.gif",
+      "/img/dal.gif",
+    ]
+  };
+
+  clickedTiles = [];
+
+
+  handleTileClick = (evt) => {
+
+
+
+    //record click
+    //test for math
+    console.log(evt);
+    const clickedTile = evt.target.src;
+
+    if (this.clickedTiles.includes(clickedTile)) {
+      this.clickedTiles.length = 0;
+      this.setState({ score: 0 });
+      return;
+    }
+
+    const newScore = this.state.score + 1;
+    const topScore = this.state.score > this.state.topScore ?
+      newScore :
+      this.state.topScore;
+
+    this.clickedTiles.push(clickedTile)
+
+    const shuffled = this.state.tiles.sort(() => 0.5 - Math.random());
+    this.setState({ tiles: shuffled });
+
+  }
+
+
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Score score={this.state.score} topScore={this.state.topScore} />
+        {
+          this.state.tiles.map((tile, idx) => <Thumbnail
+            key={idx} src={tile} onClick={this.handleTileClick}
+          />)
+        }
+
       </div>
     );
   }
