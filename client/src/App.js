@@ -53,12 +53,13 @@ class App extends Component {
     return (
       <div className="App">
         <Score score={this.state.score} topScore={this.state.topScore} />
-        {
-          this.state.tiles.map((tile, idx) => <Thumbnail
-            key={idx} src={tile} onClick={this.handleTileClick}
-          />)
-        }
-
+        <div className="top-container">
+          {
+            this.state.tiles.map((tile, idx) => <Thumbnail
+              key={idx} src={tile} onClick={this.handleTileClick}
+            />)
+          }
+        </div>
       </div>
     );
   }
